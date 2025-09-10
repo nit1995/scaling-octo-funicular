@@ -90,10 +90,13 @@ def main():
     set_co2_cap(n)
 
     solver = CONFIG.get("solver","highs")
-    n.lopf(n.snapshots, solver_name=solver)
+    status, condition = n.optimize(solver_name=solver)
+    if status != "ok" or condition != "optimal":
+        raise RuntimeError(f"Optimization failed: {status} ({condition})")
 
     system_cost = n.objective
-    load_sum = n.loads_t.p.sum().sum()
+    # Loads are stored as negative injections; flip sign for total demand
+    load_sum = -n.loads_t.p.sum().sum()
     lcoe = system_cost / max(load_sum, 1e-6)
 
     ci = average_carbon_intensity(n)

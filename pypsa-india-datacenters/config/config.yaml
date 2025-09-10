@@ -1,0 +1,5 @@
+network_path: data/input/india.nc
+use_synthetic_if_missing: true
+solver: highs
+co2_cap_tco2: 1.0e12
+random_seed: 42

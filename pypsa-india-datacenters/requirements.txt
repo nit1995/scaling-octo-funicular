@@ -1,0 +1,8 @@
+
+pypsa>=0.26.0
+linopy>=0.3.3
+numpy
+pandas
+matplotlib
+pyyaml
+scipy

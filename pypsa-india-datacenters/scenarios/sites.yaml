@@ -1,0 +1,41 @@
+
+sites:
+  - name: BLR_DC1
+    city: Bengaluru
+    bus_contains: BENGALURU
+    peak_MW: 200
+    load_factor: 0.95
+    PUE: 1.15
+    onsite: {pv: true, battery: true}
+
+  - name: HYD_DC1
+    city: Hyderabad
+    bus_contains: HYDERABAD
+    peak_MW: 150
+    load_factor: 0.90
+    PUE: 1.18
+    onsite: {pv: true, battery: true}
+
+  - name: MAA_DC1
+    city: Chennai
+    bus_contains: CHENNAI
+    peak_MW: 120
+    load_factor: 0.92
+    PUE: 1.16
+    onsite: {pv: true, battery: true}
+
+  - name: PUN_DC1
+    city: Pune
+    bus_contains: PUNE
+    peak_MW: 100
+    load_factor: 0.92
+    PUE: 1.17
+    onsite: {pv: false, battery: true}
+
+  - name: NOD_DC1
+    city: Noida
+    bus_contains: NOIDA
+    peak_MW: 120
+    load_factor: 0.93
+    PUE: 1.16
+    onsite: {pv: true, battery: false}

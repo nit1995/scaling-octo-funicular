@@ -7,6 +7,10 @@ np.random.seed(CONFIG.get("random_seed", 42))
 
 def build_synthetic():
     n = pypsa.Network()
+    # Ensure a default carrier exists for power components
+    if "AC" not in n.carriers.index:
+        n.add("Carrier", "AC")
+
     hours = pd.date_range("2025-01-01", periods=168, freq="H")
     n.set_snapshots(hours)
 
@@ -21,10 +25,11 @@ def build_synthetic():
         ("KOLKATA_220kV", "IN-WB"),
     ]
     for b, c in buses:
-        n.add("Bus", b, country=c)
+        # Explicitly set a carrier so newer PyPSA versions pass consistency checks
+        n.add("Bus", b, country=c, carrier="AC")
 
     def line(a,b,s=1000):
-        n.add("Line", f"{a}__{b}", bus0=a, bus1=b, x=0.0001, r=0.00001, s_nom=s)
+        n.add("Line", f"{a}__{b}", bus0=a, bus1=b, x=0.0001, r=0.00001, s_nom=s, carrier="AC")
 
     ring = ["BENGALURU_220kV","CHENNAI_220kV","KOLKATA_220kV","NOIDA_220kV","AHMEDABAD_220kV","MUMBAI_220kV","PUNE_220kV","HYDERABAD_220kV"]
     for i in range(len(ring)):
@@ -48,7 +53,7 @@ def build_synthetic():
     diurnal = (1.0 + 0.15*np.sin(np.arange(len(hours))/24*2*np.pi))
     for b, base in base_MW.items():
         series = pd.Series(base*diurnal, index=hours)
-        n.add("Load", f"native_{b}", bus=b, p_set=series)
+        n.add("Load", f"native_{b}", bus=b, p_set=series, carrier="AC")
 
     # Carriers with CO2 intensities (tCO2/MWh)
     for carr, ef in [("coal",0.95),("gas",0.40),("oil",0.78),("solar",0.0),("wind",0.0)]:
@@ -61,7 +66,17 @@ def build_synthetic():
     gen_specs = [("coal", 8000, 28.0), ("gas", 5000, 55.0)]
     for carrier, cap, mc in gen_specs:
         for b in base_MW.keys():
-            n.add("Generator", f"{carrier}_{b}", bus=b, p_nom=cap/len(base_MW), marginal_cost=mc, carrier=carrier, p_max_pu=1.0)
+            n.add(
+                "Generator",
+                f"{carrier}_{b}",
+                bus=b,
+                p_nom=cap/len(base_MW),
+                marginal_cost=mc,
+                carrier=carrier,
+                p_max_pu=1.0,
+                p_nom_extendable=True,
+                capital_cost=0.0,
+            )
 
     # Renewables
     rng = np.random.default_rng(0)
@@ -70,13 +85,33 @@ def build_synthetic():
     wind_profile = pd.Series(0.5 + 0.3*rng.standard_normal(len(hours)), index=hours).clip(0,1)
 
     for b in base_MW.keys():
-        n.add("Generator", f"solar_{b}", bus=b, p_nom=1500, carrier="solar", marginal_cost=0.0, p_max_pu=solar_profile.values)
-        n.add("Generator", f"wind_{b}",  bus=b, p_nom=1000, carrier="wind",  marginal_cost=0.0, p_max_pu=wind_profile.values)
+        n.add(
+            "Generator",
+            f"solar_{b}",
+            bus=b,
+            p_nom=1500,
+            carrier="solar",
+            marginal_cost=0.0,
+            p_max_pu=solar_profile.values,
+            p_nom_extendable=True,
+            capital_cost=0.0,
+        )
+        n.add(
+            "Generator",
+            f"wind_{b}",
+            bus=b,
+            p_nom=1000,
+            carrier="wind",
+            marginal_cost=0.0,
+            p_max_pu=wind_profile.values,
+            p_nom_extendable=True,
+            capital_cost=0.0,
+        )
 
     # Storage
     for b in base_MW.keys():
-        n.add("Store", f"bat_e_{b}", bus=b, e_nom=500, e_cyclic=True, standing_loss=0.0005)
-        n.add("Link", f"bat_p_{b}", bus0=b, bus1=b, p_nom=500, efficiency=0.96)
+        n.add("Store", f"bat_e_{b}", bus=b, e_nom=500, e_cyclic=True, standing_loss=0.0005, carrier="AC")
+        n.add("Link", f"bat_p_{b}", bus0=b, bus1=b, p_nom=500, efficiency=0.96, carrier="AC")
 
     os.makedirs("data/built", exist_ok=True)
     n.export_to_netcdf("data/built/synthetic_india.nc")

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,174 +11,174 @@
 body {
   margin:0;
   font-family:'Playfair Display', serif;
-  background: radial-gradient(circle at top, #6b0000, #1a0000 60%);
-  color:#f5e6c8;
+  background: radial-gradient(circle at top, #2b0033, #120018 70%);
+  color:#f5d97a;
   text-align:center;
   overflow-x:hidden;
 }
 
-/* GOLD ANIMATION BACKGROUND */
-body::before {
+/* GOLD PARTICLE SHIMMER */
+body::before{
   content:"";
   position:fixed;
   width:200%;
   height:200%;
   background:linear-gradient(45deg, rgba(255,215,0,0.08) 25%, transparent 25%, transparent 50%, rgba(255,215,0,0.08) 50%, rgba(255,215,0,0.08) 75%, transparent 75%, transparent);
   background-size:60px 60px;
-  animation: shimmer 20s linear infinite;
+  animation: shimmer 25s linear infinite;
   z-index:-1;
 }
-
-@keyframes shimmer {
-  0% {transform: translate(0,0);}
-  100% {transform: translate(-200px,-200px);}
+@keyframes shimmer{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(-200px,-200px);}
 }
 
-.hero {
-  padding:100px 20px 50px;
-  animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(40px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-h1 {
+h1{
   font-family:'Cinzel', serif;
   font-size:2.8rem;
   letter-spacing:4px;
-  margin:10px 0;
+  margin-top:80px;
+  animation:fadeIn 2s ease-in-out;
 }
 
-h2 {
-  font-family:'Cinzel', serif;
-  margin-top:50px;
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
-.divider {
-  width:120px;
+.divider{
+  width:140px;
   height:2px;
   background:gold;
-  margin:30px auto;
+  margin:25px auto;
 }
 
-.box {
-  border:2px solid gold;
-  padding:25px;
-  margin:20px auto;
-  max-width:650px;
-  border-radius:12px;
-  background:rgba(255,215,0,0.05);
-  animation: fadeIn 2s ease-in-out;
-}
-
-.countdown {
+.countdown{
   font-size:1.3rem;
-  margin-top:20px;
+  margin:20px;
   font-weight:bold;
 }
 
-button {
+.nav{
+  margin:40px 0;
+}
+.nav a{
+  margin:10px;
+  padding:10px 20px;
+  border:1px solid gold;
+  color:gold;
+  text-decoration:none;
+  border-radius:20px;
+  transition:0.3s;
+}
+.nav a:hover{
+  background:gold;
+  color:#2b0033;
+}
+
+button{
   padding:14px 30px;
   background:gold;
   border:none;
   border-radius:30px;
   font-weight:bold;
   cursor:pointer;
-  font-family:'Cinzel', serif;
-  transition:0.3s;
 }
 
-button:hover {
-  background:#fff2c2;
-  transform:scale(1.05);
-}
-
-iframe {
-  width:100%;
+iframe{
+  width:90%;
   height:300px;
   border-radius:12px;
   border:0;
   margin-top:20px;
 }
 
-footer {
-  margin-top:60px;
-  padding:20px;
-  border-top:1px solid gold;
-  font-size:0.9rem;
+/* FIREWORKS */
+.firework{
+  position:fixed;
+  width:5px;
+  height:5px;
+  background:gold;
+  border-radius:50%;
+  animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="hero">
-  <h1>[Bride Name]</h1>
-  <h1>&</h1>
-  <h1>[Groom Name]</h1>
-  <div class="divider"></div>
-  <p>Request the honour of your presence</p>
-  <p>at their Royal Wedding Celebration</p>
-  <div class="countdown" id="countdown"></div>
-</div>
+<h1>[Bride Name]</h1>
+<h1>&</h1>
+<h1>[Groom Name]</h1>
 
-<h2>The Grand Ceremony</h2>
 <div class="divider"></div>
 
-<div class="box">
-  <p><strong>Date:</strong> December 25, 2026</p>
-  <p><strong>Time:</strong> 6:00 PM onwards</p>
-  <p><strong>Venue:</strong> The Imperial Palace</p>
-  <p>City, State</p>
+<p>Request the honour of your presence</p>
+<p>at their Imperial Wedding Celebration</p>
+
+<div class="countdown" id="countdown"></div>
+
+<div class="nav">
+  <a href="mehendi.html">Mehendi</a>
+  <a href="sangeet.html">Sangeet</a>
+  <a href="reception.html">Reception</a>
 </div>
 
-<h2>Venue Location</h2>
+<h2>Grand Ceremony</h2>
 <div class="divider"></div>
 
-<div class="box">
-  <!-- REPLACE SRC WITH YOUR GOOGLE MAP EMBED LINK -->
-  <iframe 
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d..." 
-  allowfullscreen="" loading="lazy"></iframe>
-</div>
+<p><strong>Date:</strong> December 25, 2026</p>
+<p><strong>Venue:</strong> The Royal Palace, City</p>
 
-<h2>Kindly RSVP</h2>
-<div class="divider"></div>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d..." loading="lazy"></iframe>
 
-<div class="box">
-  <p>Your gracious presence will honour us.</p>
-  <button onclick="window.location.href='https://wa.me/91XXXXXXXXXX'">
-    Confirm via WhatsApp
-  </button>
-</div>
-
-<footer>
-With blessings from both families<br>
-© 2026 [Bride & Groom Names]
-</footer>
+<br><br>
+<button onclick="window.location.href='https://wa.me/91XXXXXXXXXX'">
+RSVP on WhatsApp
+</button>
 
 <script>
-// CHANGE DATE BELOW
+/* COUNTDOWN */
 var weddingDate = new Date("December 25, 2026 18:00:00").getTime();
-
-var x = setInterval(function() {
+var x = setInterval(function(){
   var now = new Date().getTime();
   var distance = weddingDate - now;
 
-  var days = Math.floor(distance / (1000*60*60*24));
-  var hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-  var minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  var days = Math.floor(distance/(1000*60*60*24));
+  var hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  var minutes = Math.floor((distance%(1000*60*60))/(1000*60));
 
   document.getElementById("countdown").innerHTML =
-  days + " Days • " + hours + " Hours • " + minutes + " Minutes";
+  days+" Days • "+hours+" Hours • "+minutes+" Minutes";
 
-  if (distance < 0) {
+  if(distance < 0){
     clearInterval(x);
-    document.getElementById("countdown").innerHTML = "The Royal Celebration Has Begun!";
+    document.getElementById("countdown").innerHTML="The Royal Celebration Has Begun!";
+    launchFireworks();
   }
-}, 1000);
+},1000);
+
+/* FIREWORK FUNCTION */
+function launchFireworks(){
+  for(let i=0;i<80;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=window.innerWidth/2+"px";
+    f.style.top=window.innerHeight/3+"px";
+    f.style.setProperty('--x',(Math.random()*400-200)+'px');
+    f.style.setProperty('--y',(Math.random()*400-200)+'px');
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+window.onload = launchFireworks;
 </script>
 
 </body>

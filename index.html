@@ -8,16 +8,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+
+/* ===============================
+   DIVINE TEMPLE BACKGROUND
+================================= */
+
 body {
   margin:0;
   font-family:'Playfair Display', serif;
-  background: radial-gradient(circle at top, #3a0057, #120018 70%);
+  background:
+    linear-gradient(rgba(50,0,70,0.85), rgba(20,0,30,0.95)),
+    url('https://images.unsplash.com/photo-1549880187-7c4d9b8f7c18?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;
+  background-attachment:fixed;
+  background-position:center;
   color:#f5d97a;
   scroll-behavior:smooth;
   overflow-x:hidden;
 }
 
-/* ENTRY SCREEN */
+/* GOLD SHIMMER */
+body::before{
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  background:linear-gradient(45deg, rgba(255,215,0,0.06) 25%, transparent 25%, transparent 50%, rgba(255,215,0,0.06) 50%, rgba(255,215,0,0.06) 75%, transparent 75%, transparent);
+  background-size:60px 60px;
+  animation: shimmer 40s linear infinite;
+  z-index:-1;
+}
+@keyframes shimmer{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(-300px,-300px);}
+}
+
+/* ===============================
+   ENTRY SCREEN
+================================= */
+
 #entry {
   position:fixed;
   width:100%;
@@ -30,10 +59,13 @@ body {
   z-index:9999;
   text-align:center;
 }
+
 #entry h1{
   font-family:'Cinzel', serif;
   letter-spacing:4px;
+  text-shadow:0 0 20px gold;
 }
+
 #entry button{
   padding:15px 40px;
   background:gold;
@@ -43,30 +75,21 @@ body {
   cursor:pointer;
 }
 
-/* SHIMMER */
-body::before{
-  content:"";
-  position:fixed;
-  width:200%;
-  height:200%;
-  background:linear-gradient(45deg, rgba(255,215,0,0.07) 25%, transparent 25%, transparent 50%, rgba(255,215,0,0.07) 50%, rgba(255,215,0,0.07) 75%, transparent 75%, transparent);
-  background-size:60px 60px;
-  animation: shimmer 30s linear infinite;
-  z-index:-1;
-}
-@keyframes shimmer{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(-200px,-200px);}
+/* ===============================
+   DIVINE TEXT GLOW
+================================= */
+
+h1,h2{
+  font-family:'Cinzel', serif;
+  letter-spacing:3px;
+  text-shadow:
+    0 0 10px gold,
+    0 0 20px rgba(255,215,0,0.5);
 }
 
 section{
   padding:80px 20px;
   text-align:center;
-}
-
-h1,h2{
-  font-family:'Cinzel', serif;
-  letter-spacing:3px;
 }
 
 .divider{
@@ -82,7 +105,8 @@ h1,h2{
   border-radius:15px;
   margin:20px auto;
   max-width:600px;
-  background:rgba(255,215,0,0.05);
+  background:rgba(255,215,0,0.07);
+  backdrop-filter:blur(3px);
 }
 
 button{
@@ -94,27 +118,58 @@ button{
   cursor:pointer;
 }
 
+/* ===============================
+   MYTHOLOGICAL PAINTING PHOTOS
+================================= */
+
 .gallery img{
   width:90%;
   max-width:300px;
-  margin:10px;
-  border-radius:12px;
+  margin:15px;
+  border-radius:8px;
+  border:4px solid gold;
+  filter:
+    contrast(1.3)
+    saturate(1.4)
+    sepia(0.5)
+    brightness(1.05);
+  box-shadow:
+    0 0 30px rgba(255,215,0,0.6),
+    0 10px 50px rgba(0,0,0,0.7);
+  transition:0.6s ease;
 }
 
-iframe{
-  width:90%;
-  height:250px;
-  border:0;
-  border-radius:12px;
+.gallery img:hover{
+  transform:scale(1.05);
+  filter:
+    contrast(1.4)
+    sepia(0.6)
+    saturate(1.5);
 }
 
-.countdown{
-  font-size:1.2rem;
-  font-weight:bold;
-  margin-top:15px;
+/* ===============================
+   DIYA FLAME EFFECT
+================================= */
+
+.diya {
+  position:fixed;
+  bottom:20px;
+  font-size:30px;
+  animation: flicker 1.5s infinite alternate;
 }
 
-/* FIREWORK */
+.diya.left { left:20px; }
+.diya.right { right:20px; }
+
+@keyframes flicker{
+  from{opacity:0.8;}
+  to{opacity:1;}
+}
+
+/* ===============================
+   FIREWORK
+================================= */
+
 .firework{
   position:fixed;
   width:6px;
@@ -129,6 +184,20 @@ iframe{
     opacity:0;
   }
 }
+
+iframe{
+  width:90%;
+  height:250px;
+  border-radius:12px;
+  border:0;
+}
+
+.countdown{
+  font-size:1.2rem;
+  font-weight:bold;
+  margin-top:15px;
+}
+
 </style>
 </head>
 
@@ -136,50 +205,48 @@ iframe{
 
 <div id="entry">
   <h1>Niteesh ❤️ Sowmya</h1>
-  <p>Welcome to Our Royal Celebration</p>
+  <p>Welcome to Our Divine Celebration</p>
   <button onclick="enterSite()">Enter</button>
 </div>
 
 <audio id="bgMusic" loop>
-  <source src="YOUR-MUSIC-LINK.mp3" type="audio/mpeg">
+  <source src="jotheyali.mp3" type="audio/mpeg">
 </audio>
+
+<div class="diya left">🪔</div>
+<div class="diya right">🪔</div>
 
 <section>
   <h1>Niteesh</h1>
   <h2>&</h2>
   <h1>Sowmya</h1>
   <div class="divider"></div>
-  <p>Invite you to celebrate their union</p>
   <div class="countdown" id="countdown"></div>
 </section>
 
 <section>
-  <h2>The Wedding</h2>
+  <h2>The Wedding – 4th – Soraba</h2>
   <div class="divider"></div>
   <div class="card">
-    <p><strong>Date:</strong> 4th</p>
-    <p><strong>Location:</strong> Soraba</p>
-    <iframe src="PASTE-SORABA-GOOGLE-MAP-EMBED"></iframe>
+    <iframe src="PASTE-SORABA-GMAP-EMBED"></iframe>
   </div>
 </section>
 
 <section>
-  <h2>The Reception</h2>
+  <h2>The Reception – 7th – Bangalore</h2>
   <div class="divider"></div>
   <div class="card">
-    <p><strong>Date:</strong> 7th</p>
-    <p><strong>Location:</strong> Bangalore</p>
-    <iframe src="PASTE-BANGALORE-GOOGLE-MAP-EMBED"></iframe>
+    <iframe src="PASTE-BANGALORE-GMAP-EMBED"></iframe>
   </div>
 </section>
 
 <section>
-  <h2>Moments</h2>
+  <h2>Divine Moments</h2>
   <div class="divider"></div>
   <div class="gallery">
-    <img src="YOUR-PHOTO-1.jpg">
-    <img src="YOUR-PHOTO-2.jpg">
-    <img src="YOUR-PHOTO-3.jpg">
+    <img src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
   </div>
 </section>
 
@@ -192,24 +259,60 @@ iframe{
 </section>
 
 <script>
+
+/* TEMPLE ENTRY */
 function enterSite(){
   document.getElementById("entry").style.display="none";
-  document.getElementById("bgMusic").play();
+
+  let bell = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+  bell.play();
+
+  setTimeout(()=>{
+    let music = document.getElementById("bgMusic");
+    music.volume = 0;
+    music.play();
+    let fade = setInterval(()=>{
+      if(music.volume < 0.8){ music.volume += 0.05; }
+      else{ clearInterval(fade); }
+    },200);
+  },1500);
+
   launchFireworks();
 }
 
+/* FIREWORKS */
 function launchFireworks(){
   for(let i=0;i<100;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.left=window.innerWidth/2+"px";
     f.style.top=window.innerHeight/3+"px";
-    f.style.setProperty('--x',(Math.random()*500-250)+'px');
-    f.style.setProperty('--y',(Math.random()*500-250)+'px');
+    f.style.setProperty('--x',(Math.random()*600-300)+'px');
+    f.style.setProperty('--y',(Math.random()*600-300)+'px');
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1000);
   }
 }
+
+/* PETALS */
+function createPetal(){
+  const petal = document.createElement("div");
+  petal.innerHTML = "🌸";
+  petal.style.position = "fixed";
+  petal.style.left = Math.random()*window.innerWidth+"px";
+  petal.style.top = "-20px";
+  petal.style.fontSize="20px";
+  petal.style.animation="fall 6s linear forwards";
+  document.body.appendChild(petal);
+  setTimeout(()=>petal.remove(),6000);
+}
+setInterval(createPetal,700);
+
+const style=document.createElement('style');
+style.innerHTML=`@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}`;
+document.head.appendChild(style);
 
 /* COUNTDOWN */
 var weddingDate = new Date("October 4, 2026 09:00:00").getTime();
@@ -218,8 +321,9 @@ setInterval(function(){
   var distance = weddingDate - now;
   var days = Math.floor(distance/(1000*60*60*24));
   document.getElementById("countdown").innerHTML =
-  days+" Days Until The Wedding";
+  days+" Days Until Divine Union";
 },1000);
+
 </script>
 
 </body>
